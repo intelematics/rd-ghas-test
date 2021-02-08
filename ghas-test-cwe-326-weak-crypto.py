@@ -1,5 +1,8 @@
+#!/usr/bin/env python
 from cryptography.hazmat import backends
 from cryptography.hazmat.primitives.asymmetric import ec, dsa, rsa
+from random import random
+
 
 #Crypto and Cryptodome have same API
 if random():
@@ -11,14 +14,10 @@ else:
 
 RSA_WEAK = 1024
 RSA_OK = 2048
-RSA_STRONG = 3076
-BIG = 10000
+RSA_STRONG = 3072
+BIG = 4096
 
-class FakeWeakEllipticCurve:
-    name = "fake"
-    key_size = 160
-
-EC_WEAK = FakeWeakEllipticCurve()
+#EC_WEAK = FakeWeakEllipticCurve()
 EC_OK = ec.SECP224R1()
 EC_STRONG = ec.SECP384R1()
 EC_BIG = ec.SECT571R1()
@@ -34,9 +33,9 @@ default = backends.default_backend()
 dsa_gen_key(key_size=RSA_OK, backend=default)
 dsa_gen_key(key_size=RSA_STRONG, backend=default)
 dsa_gen_key(key_size=BIG, backend=default)
-ec_gen_key(curve=EC_OK, backend=default)
-ec_gen_key(curve=EC_STRONG, backend=default)
-ec_gen_key(curve=EC_BIG, backend=default)
+#ec_gen_key(curve=EC_OK, backend=default)
+#ec_gen_key(curve=EC_STRONG, backend=default)
+#ec_gen_key(curve=EC_BIG, backend=default)
 rsa_gen_key(public_exponent=65537, key_size=RSA_OK, backend=default)
 rsa_gen_key(public_exponent=65537, key_size=RSA_STRONG, backend=default)
 rsa_gen_key(public_exponent=65537, key_size=BIG, backend=default)
@@ -46,15 +45,15 @@ DSA.generate(bits=RSA_STRONG)
 RSA.generate(bits=RSA_OK)
 RSA.generate(bits=RSA_STRONG)
 
-dsa_gen_key(RSA_OK, default)
-dsa_gen_key(RSA_STRONG, default)
-dsa_gen_key(BIG, default)
-ec_gen_key(EC_OK, default)
-ec_gen_key(EC_STRONG, default)
-ec_gen_key(EC_BIG, default)
-rsa_gen_key(65537, RSA_OK, default)
-rsa_gen_key(65537, RSA_STRONG, default)
-rsa_gen_key(65537, BIG, default)
+dsa_gen_key(RSA_OK, backend=default)
+dsa_gen_key(RSA_STRONG, backend=default)
+dsa_gen_key(BIG, backend=default)
+#ec_gen_key(EC_OK, backend=default)
+#ec_gen_key(EC_STRONG, backend=default)
+#ec_gen_key(EC_BIG, backend=default)
+rsa_gen_key(65537, RSA_OK, backend=default)
+rsa_gen_key(65537, RSA_STRONG, backend=default)
+rsa_gen_key(65537, BIG, backend=default)
 
 DSA.generate(RSA_OK)
 DSA.generate(RSA_STRONG)
@@ -64,13 +63,15 @@ RSA.generate(RSA_STRONG)
 
 # Weak keys
 
-dsa_gen_key(RSA_WEAK, default)
-ec_gen_key(EC_WEAK, default)
-rsa_gen_key(65537, RSA_WEAK, default)
+dsa_gen_key(RSA_WEAK, backend=default)
+#ec_gen_key(EC_WEAK, backend=default)
+rsa_gen_key(65537, RSA_WEAK, backend=default)
 
-dsa_gen_key(key_size=RSA_WEAK, default)
-ec_gen_key(curve=EC_WEAK, default)
-rsa_gen_key(65537, key_size=RSA_WEAK, default)
+dsa_gen_key(key_size=RSA_WEAK, backend=default)
+#ec_gen_key(curve=EC_WEAK, backend=default)
+rsa_gen_key(65537, key_size=RSA_WEAK, backend=default)
 
-DSA.generate(RSA_WEAK)
-RSA.generate(RSA_WEAK)
+print(DSA.generate(RSA_WEAK))
+print(RSA.generate(RSA_WEAK))
+
+print('Done!')
